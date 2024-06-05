@@ -8,18 +8,16 @@ namespace Task_2
         {
             string inputText = InputData();
 
-            string[] textWords = InputProcessing(inputText);
+            string[] wordsArray = SplitText(inputText);
 
-            Console.WriteLine("\nИзмененный вид массива слов:\n");
-            OutputResult(textWords);
+            string resultText = CollectText(wordsArray);
+
+            Console.WriteLine("\nПеревернутый текст: ");
+            OutputResult(resultText);
 
             Console.ReadKey();
         }
 
-        /// <summary>
-        /// Получение данных от пользователя
-        /// </summary>
-        /// <returns></returns>
         static string InputData()
         {
             Console.WriteLine("Введите текст:");
@@ -28,10 +26,6 @@ namespace Task_2
             return input;
         }
 
-        /// <summary>
-        /// Проверка на пустое поле ввода
-        /// </summary>
-        /// <returns></returns>
         static string InputChecking()
         {
             string _input = Console.ReadLine().Trim();
@@ -50,93 +44,26 @@ namespace Task_2
             }
         }
 
-        /// <summary>
-        /// Отображение изначального массива и его зеркальное отображение
-        /// </summary>
-        /// <param name="input"> Введенная пользователем информация </param>
-        /// <returns> Зеркальный массив </returns>
-        static string[] InputProcessing(string input)
+        static string[] SplitText(string input)
         {
-            //Создание массива
-            string[] tempTextWords = CraeteNewArray(input);
-
-            Console.WriteLine("\nИзначальный вид массива слов:\n");
-            OutputResult(tempTextWords);
-
-            int LastIndex = tempTextWords.Length - 1, FirstIndex = 0;
-            //Обмен элементов
-            if (LastIndex != 0)
-            {
-                string tempWord;
-
-                while (LastIndex > FirstIndex)
-                {
-                    tempWord = tempTextWords[FirstIndex];
-                    tempTextWords[FirstIndex] = tempTextWords[LastIndex];
-                    tempTextWords[LastIndex] = tempWord;
-
-                    FirstIndex++;
-                    LastIndex--;
-                }
-            }
-
-            return tempTextWords;
+            string[] textArray = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            ReverseArray(textArray);
+            return textArray;
         }
 
-        /// <summary>
-        /// Обработка массива на наличие пустых элементов
-        /// </summary>
-        /// <param name="input"> Введенная пользователем информация </param>
-        /// <returns> Обработанный массив </returns>
-        static string[] CraeteNewArray(string input)
+        static void ReverseArray(string[] textArray)
         {
-            //Создание массива
-            string[] tempArray = input.Split(' ');
-
-            //Подсчёт не пустых элементов массива
-            int newArrayLength = 0;
-
-            for (int i = 0; i < tempArray.Length; i++)
-            {
-                if (tempArray[i].Trim() == "")
-                {
-                    continue;
-                }
-                else
-                {
-                    newArrayLength++;
-                }
-            }
-
-            //Создание нового массива и заполнение не пустыми значениями
-            string[] tempTextWords = new string[newArrayLength];
-
-            for (int i = 0; i < tempTextWords.Length; i++)
-            {
-                for (int j = 0; j < tempArray.Length; j++)
-                {
-                    if (tempArray[j].Trim() != "")
-                    {
-                        tempTextWords[i] = tempArray[j];
-                        tempArray[j] = "";
-                        break;
-                    }
-                }
-            }
-            return tempTextWords;
+           Array.Reverse(textArray);
         }
 
-        /// <summary>
-        /// Вывод результата
-        /// </summary>
-        /// <param name="words"> Обработанный массив </param>
-        static void OutputResult(string[] words)
+        static string CollectText(string[] textArray)
         {
-            int arrayLenght = words.Length;
-            for (int i = 0; i < arrayLenght; i++)
-            {
-                Console.WriteLine($"{i + 1} - {words[i]}");
-            }
+            return string.Join(" ", textArray);
+        }
+
+        static void OutputResult(string textResult)
+        {
+            Console.WriteLine($"\n{textResult}");
         }
     }
 }

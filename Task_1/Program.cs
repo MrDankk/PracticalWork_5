@@ -8,7 +8,7 @@ namespace Task_1
         {
             string inputText = InputData();
 
-            string[] textWords = InputProcessing(inputText);
+            string[] textWords = SplitText(inputText);
             
             OutputResult(textWords);
 
@@ -42,43 +42,11 @@ namespace Task_1
             }
         }
 
-        static string[] InputProcessing(string input)
+        static string[] SplitText(string input)
         {
-            //Создание массива
-            string[] tempArray = input.Split(' ');
+            string[] tempArray = input.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 
-            //Подсчёт не пустых элементов массива
-            int newArrayLength = 0;
-
-            for (int i = 0; i < tempArray.Length; i++)
-            {
-                if (tempArray[i].Trim() == "")
-                {
-                    continue;
-                }
-                else
-                {
-                    newArrayLength++;
-                }
-            }
-
-            //Создание нового массива и заполнение не пустыми значениями
-            string[] tempTextWords = new string[newArrayLength];
-
-            for (int i = 0; i < tempTextWords.Length; i++)
-            {
-                for (int j = 0; j < tempArray.Length;j++)
-                {
-                    if(tempArray[j].Trim() != "")
-                    {
-                        tempTextWords[i] = tempArray[j];
-                        tempArray[j] = "";
-                        break;
-                    }
-                }
-            }
-
-            return tempTextWords;
+            return tempArray;
         }
 
         static void OutputResult(string[] words)
